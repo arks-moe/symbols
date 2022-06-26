@@ -1,11 +1,13 @@
 <script>
 	import renderSar from '$lib/symbol/render';
 	import processSarBuffer from '$lib/symbol/sar-parse';
+	import { toast } from '@zerodevx/svelte-toast';
 	import { beforeUpdate } from 'svelte';
 	import * as PIXI from 'pixi.js';
 
 	/** @type {File[] | null} */
 	let files;
+	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
 	let loading = false;
 
@@ -21,7 +23,12 @@
 				loading = false;
 			})
 			.catch(err => {
-				console.error(err);
+				toast.push(`Error: ${err.message}`, {
+					theme: {
+						'--toastBackground': '#F56565',
+						'--toastBarBackground': '#C53030'
+					}
+				});
 				files = null;
 				loading = false;
 			});
@@ -29,6 +36,14 @@
 
 	beforeUpdate(() => PIXI.utils.destroyTextureCache());
 </script>
+
+<svelte:window
+	on:dragenter|preventDefault|stopPropagation
+	on:dragover|preventDefault|stopPropagation
+	on:drop|preventDefault|stopPropagation={event => {
+		if (event.dataTransfer.files[0]) files = [event.dataTransfer.files[0]];
+	}}
+/>
 
 <div class="max-w-3xl mx-auto p-4 rounded-box my-8">
 	<form on:submit|preventDefault class="flex flex-col items-center gap-4">
