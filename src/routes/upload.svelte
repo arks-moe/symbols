@@ -5,12 +5,17 @@
 	import { beforeUpdate, onMount } from 'svelte';
 	import * as PIXI from 'pixi.js';
 	import user from '$stores/userSession';
+	import supabase from '$lib/supabase-client';
 
 	/** @type {File[] | null} */
 	let files;
+
+	/** @type {File} - A successfully loaded file */
 	let loadedFile;
+
 	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
+
 	let loading = false;
 
 	$: if (files && files[0]) loadFile(files[0]);
@@ -35,6 +40,13 @@
 				});
 				loading = false;
 			});
+	}
+
+	/** @type {String} - User input for title of post */
+	let title = '';
+
+	function upload() {
+		supabase.storage.from('symbols').upload(title, loadedFile, {});
 	}
 
 	beforeUpdate(() => PIXI.utils.destroyTextureCache());
