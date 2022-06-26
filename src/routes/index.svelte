@@ -3,7 +3,7 @@
 	import supabase from '$lib/supabase-client';
 	import user from '$stores/userSession';
 	import UserWidget from '$components/UserWidget.svelte';
-	import downloadRename from '$lib/download-and-rename';
+	import bucketDownloadRename from '$lib/bucket-download-rename';
 
 	supabase.auth.onAuthStateChange((event, session) => {
 		console.log('Auth State has Changed:', event, session);
@@ -16,6 +16,6 @@
 <button
 	class="btn"
 	on:click={() => {
-		downloadRename('symbols', 'thumbnail-shrimp.png', 'bazingabruh.png');
+		bucketDownloadRename('symbols', 'thumbnail-shrimp.png', 'bazingabruh.png');
 	}}>Download but epic</button
 >
