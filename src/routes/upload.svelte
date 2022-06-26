@@ -2,23 +2,27 @@
 	import renderSar from '$lib/symbol/render';
 	import processSarBuffer from '$lib/symbol/sar-parse';
 	import { toast } from '@zerodevx/svelte-toast';
-	import { beforeUpdate } from 'svelte';
+	import { beforeUpdate, onMount } from 'svelte';
 	import * as PIXI from 'pixi.js';
+	import user from '$stores/userSession';
 
 	/** @type {File[] | null} */
 	let files;
+	let loadedFile;
 	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
 	let loading = false;
 
-	$: if (files && files[0]) {
-		//prettier-ignore
+	$: if (files && files[0]) loadFile(files[0]);
+
+	function loadFile(sarFile) {
 		loading = true;
-		files[0]
+		sarFile
 			.arrayBuffer()
 			.then(processSarBuffer)
 			.then(renderSar)
 			.then(dataUrl => {
+				loadedFile = sarFile;
 				renderedFile = dataUrl;
 				loading = false;
 			})
@@ -29,7 +33,6 @@
 						'--toastBarBackground': '#C53030'
 					}
 				});
-				files = null;
 				loading = false;
 			});
 	}
@@ -41,7 +44,7 @@
 	on:dragenter|preventDefault|stopPropagation
 	on:dragover|preventDefault|stopPropagation
 	on:drop|preventDefault|stopPropagation={event => {
-		if (event.dataTransfer.files[0]) files = [event.dataTransfer.files[0]];
+		if (event.dataTransfer.files[0]) loadFile(event.dataTransfer.files[0]);
 	}}
 />
 
