@@ -41,8 +41,12 @@ export async function post({ request }) {
 		const sar_filename = `${filename}.sar`;
 		const thumbnail_filename = `thumbnail-${filename}.png`;
 		const uploads = await Promise.all([
-			supabase.storage.from('symbols').upload(sar_filename, sar),
-			supabase.storage.from('symbols').upload(thumbnail_filename, thumbnail)
+			supabase.storage.from('symbols').upload(sar_filename, sar, {
+				contentType: 'application/octet-stream'
+			}),
+			supabase.storage
+				.from('symbols')
+				.upload(thumbnail_filename, thumbnail, { contentType: 'image/png' })
 		]);
 
 		const isSuccessful = uploads.reduce((prev, curr) => {
@@ -54,7 +58,10 @@ export async function post({ request }) {
 			throw new Error('Upload failed, something went wrong...');
 		}
 
-		const { data: newPost, error } = await supabase.from('posts').insert([
+		const {
+			data: [newPost],
+			error
+		} = await supabase.from('posts').insert([
 			{
 				user_id,
 				title,
@@ -66,6 +73,8 @@ export async function post({ request }) {
 		if (error) {
 			throw new Error('Upload failed, something went wrong...');
 		}
+
+		console.log(newPost);
 
 		return { status: 201, body: newPost };
 	} catch (err) {

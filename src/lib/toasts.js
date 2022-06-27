@@ -1,4 +1,9 @@
 import { toast } from '@zerodevx/svelte-toast';
+
+export function toastSuccess(msg) {
+	toast.push(msg);
+}
+
 export function toastError(msg) {
 	toast.push(`Error: ${msg}`, {
 		theme: {

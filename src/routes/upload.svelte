@@ -4,8 +4,8 @@
 	import { beforeUpdate } from 'svelte';
 	import * as PIXI from 'pixi.js';
 	import user from '$stores/userSession';
+	import { toastError, toastSuccess } from '$lib/toasts';
 	import supabase from '$lib/supabase-client';
-	import { toastError } from '$lib/toasts';
 
 	/** @type {File[] | null} */
 	let files;
@@ -45,7 +45,30 @@
 	let title = '';
 
 	function upload() {
-		supabase.storage.from('symbols').upload(title, loadedFile, {});
+		fetch(renderedFile)
+			.then(res => res.blob())
+			.then(thumbnail => {
+				const formData = new FormData();
+				formData.append('title', title);
+				formData.append('sar', loadedFile);
+				formData.append('thumbnail', thumbnail);
+
+				return fetch('/api/upload', {
+					method: 'POST',
+					body: formData,
+					headers: { 'X-Access-Token': supabase.auth.session().access_token }
+				});
+			})
+			.then(res => Promise.all([res.ok, res.json()]))
+			.then(([ok, json]) => {
+				if (!ok) throw new Error(json.error);
+				toastSuccess('Upload successful!');
+				console.log(json);
+			})
+			.catch(err => {
+				console.error(err);
+				toastError(err.message);
+			});
 	}
 
 	beforeUpdate(() => PIXI.utils.destroyTextureCache());
@@ -60,7 +83,7 @@
 />
 
 <div class="max-w-3xl mx-auto p-4 rounded-box my-8">
-	<form on:submit|preventDefault class="flex flex-col items-center gap-4">
+	<form on:submit|preventDefault={upload} class="flex flex-col items-center gap-4">
 		<div class="rounded-box bg-base-100 p-4 w-full">
 			<label for="file" class="btn btn-block btn-secondary">Load .sar file</label>
 			<input type="file" name="file" id="file" accept=".sar" bind:files hidden />
@@ -87,6 +110,7 @@
 								id="title"
 								type="text"
 								class="input h-fit w-full bg-base-300 p-2 leading-none"
+								required
 							/>
 						</div>
 					</div>
