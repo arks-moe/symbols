@@ -43,11 +43,13 @@
 	/** @type {String} - User input for title of post */
 	let title = '';
 
-	function upload() {
+	function upload(event) {
 		toastPromise(
 			fetch(renderedFile)
 				.then(res => res.blob())
 				.then(thumbnail => {
+					if (!supabase.auth.session()) throw new Error('Authentication required.');
+
 					const formData = new FormData();
 					formData.append('title', title);
 					formData.append('sar', loadedFile);
@@ -63,6 +65,9 @@
 				.then(([ok, json]) => {
 					if (!ok) throw new Error(json.error);
 					console.log(json);
+					event.target.reset();
+					loadedFile = null;
+					previewOpen = false;
 				}),
 			{
 				loading: 'Uploading Post...',
@@ -82,7 +87,7 @@
 	}}
 />
 
-<div class="max-w-3xl mx-auto p-4 rounded-box my-8">
+<div class="max-w-xl mx-auto p-4 rounded-box my-8">
 	<form on:submit|preventDefault={upload} class="flex flex-col items-center gap-4">
 		<div class="rounded-box bg-base-100 p-4 w-full">
 			<label for="file" class="btn btn-block btn-secondary">Load .sar file</label>
