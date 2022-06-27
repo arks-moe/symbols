@@ -1,26 +1,28 @@
 <script>
 	import renderSar from '$lib/symbol/render';
 	import processSarBuffer from '$lib/symbol/sar-parse';
-	import { toast } from '@zerodevx/svelte-toast';
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 	import * as PIXI from 'pixi.js';
 	import user from '$stores/userSession';
 	import supabase from '$lib/supabase-client';
+	import { toastError } from '$lib/toasts';
 
 	/** @type {File[] | null} */
 	let files;
 
-	/** @type {File} - A successfully loaded file */
+	/** @type {File | null} - A successfully loaded file */
 	let loadedFile;
 
 	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
 
+	let previewOpen = false;
 	let loading = false;
 
 	$: if (files && files[0]) loadFile(files[0]);
 
 	function loadFile(sarFile) {
+		previewOpen = true;
 		loading = true;
 		sarFile
 			.arrayBuffer()
@@ -32,12 +34,9 @@
 				loading = false;
 			})
 			.catch(err => {
-				toast.push(`Error: ${err.message}`, {
-					theme: {
-						'--toastBackground': '#F56565',
-						'--toastBarBackground': '#C53030'
-					}
-				});
+				toastError(err.message);
+				loadedFile = null;
+				previewOpen = false;
 				loading = false;
 			});
 	}
@@ -62,12 +61,12 @@
 
 <div class="max-w-3xl mx-auto p-4 rounded-box my-8">
 	<form on:submit|preventDefault class="flex flex-col items-center gap-4">
-		<div class="rounded-box bg-base-100 p-2 w-full">
-			<label for="file" class="btn btn-block btn-secondary">Upload .sar file</label>
+		<div class="rounded-box bg-base-100 p-4 w-full">
+			<label for="file" class="btn btn-block btn-secondary">Load .sar file</label>
 			<input type="file" name="file" id="file" accept=".sar" bind:files hidden />
 		</div>
 
-		{#if files && files[0]}
+		{#if previewOpen}
 			<div class="rounded-box p-4 bg-base-100 prose min-w-full">
 				<h3>preview</h3>
 				{#if loading}
@@ -76,6 +75,27 @@
 					<img class="rounded-box aspect-[2/1]" src={renderedFile} alt="Rendered File Preview" />
 				{/if}
 			</div>
+			{#if renderedFile}
+				<div class="w-full rounded-box flex flex-col gap-4 bg-base-100 py-4">
+					<div class="form-control flex flex-col gap-3 px-4">
+						<label for="title" class="flex items-center">
+							<span class="text-xl font-semibold">Post Title</span>
+						</label>
+						<div>
+							<input
+								bind:value={title}
+								id="title"
+								type="text"
+								class="input h-fit w-full bg-base-300 p-2 leading-none"
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div class="rounded-box bg-base-100 p-4 w-full">
+					<button class="btn btn-block btn-accent">Upload!</button>
+				</div>
+			{/if}
 		{/if}
 	</form>
 </div>
