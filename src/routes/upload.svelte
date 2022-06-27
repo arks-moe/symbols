@@ -44,7 +44,6 @@
 	let title = '';
 
 	function upload() {
-		let errorMessage;
 		toastPromise(
 			fetch(renderedFile)
 				.then(res => res.blob())
