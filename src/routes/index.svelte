@@ -1,7 +1,8 @@
 <script>
-	// @ts-nocheck
 	import bucketDownloadRename from '$lib/bucket-download-rename';
-	import { toast } from '@zerodevx/svelte-toast';
+	import { toastPromise } from '$lib/toasts';
+
+	const sleep = t => new Promise(resolve => setTimeout(resolve, t));
 </script>
 
 <button
@@ -12,14 +13,12 @@
 >
 
 <button
-	on:click={() => {
-		toast.push('bazinga', {
-			theme: {
-				'--toastBackground': '#F56565',
-				'--toastBarBackground': '#C53030'
-			}
-		});
-	}}
+	on:click={() =>
+		toastPromise(sleep(5000), {
+			loading: 'loading up',
+			success: 'succesful!!!',
+			error: 'some error message'
+		})}
 >
 	push toast
 </button>

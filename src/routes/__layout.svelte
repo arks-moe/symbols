@@ -5,9 +5,14 @@
 	import '../app.css';
 	import Header from '$components/Header.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import { onMount } from 'svelte';
 
 	supabase.auth.onAuthStateChange((event, session) => {
 		console.log('Auth State has Changed:', event, session);
+		$user = supabase.auth.user();
+	});
+
+	onMount(() => {
 		$user = supabase.auth.user();
 	});
 </script>

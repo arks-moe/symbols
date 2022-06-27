@@ -3,8 +3,7 @@
 	import processSarBuffer from '$lib/symbol/sar-parse';
 	import { beforeUpdate } from 'svelte';
 	import * as PIXI from 'pixi.js';
-	import user from '$stores/userSession';
-	import { toastError, toastSuccess } from '$lib/toasts';
+	import { toastError, toastPromise, toastSuccess } from '$lib/toasts';
 	import supabase from '$lib/supabase-client';
 
 	/** @type {File[] | null} */
@@ -45,30 +44,32 @@
 	let title = '';
 
 	function upload() {
-		fetch(renderedFile)
-			.then(res => res.blob())
-			.then(thumbnail => {
-				const formData = new FormData();
-				formData.append('title', title);
-				formData.append('sar', loadedFile);
-				formData.append('thumbnail', thumbnail);
+		let errorMessage;
+		toastPromise(
+			fetch(renderedFile)
+				.then(res => res.blob())
+				.then(thumbnail => {
+					const formData = new FormData();
+					formData.append('title', title);
+					formData.append('sar', loadedFile);
+					formData.append('thumbnail', thumbnail);
 
-				return fetch('/api/upload', {
-					method: 'POST',
-					body: formData,
-					headers: { 'X-Access-Token': supabase.auth.session().access_token }
-				});
-			})
-			.then(res => Promise.all([res.ok, res.json()]))
-			.then(([ok, json]) => {
-				if (!ok) throw new Error(json.error);
-				toastSuccess('Upload successful!');
-				console.log(json);
-			})
-			.catch(err => {
-				console.error(err);
-				toastError(err.message);
-			});
+					return fetch('/api/upload', {
+						method: 'POST',
+						body: formData,
+						headers: { 'X-Access-Token': supabase.auth.session().access_token }
+					});
+				})
+				.then(res => Promise.all([res.ok, res.json()]))
+				.then(([ok, json]) => {
+					if (!ok) throw new Error(json.error);
+					console.log(json);
+				}),
+			{
+				loading: 'Uploading Post...',
+				success: 'Post has been uploaded!'
+			}
+		);
 	}
 
 	beforeUpdate(() => PIXI.utils.destroyTextureCache());
