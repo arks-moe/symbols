@@ -1,24 +1,11 @@
 <script>
-	import bucketDownloadRename from '$lib/bucket-download-rename';
-	import { toastPromise } from '$lib/toasts';
+	import supabase from '$lib/supabase-client';
 
-	const sleep = t => new Promise(resolve => setTimeout(resolve, t));
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const { body, error } = await supabase.rpc('posts_meta');
+		if (error) console.error(error);
+		console.log(body);
+	});
 </script>
-
-<button
-	class="btn"
-	on:click={() => {
-		bucketDownloadRename('symbols', 'thumbnail-shrimp.png', 'bazingabruh.png');
-	}}>Download but epic</button
->
-
-<button
-	on:click={() =>
-		toastPromise(sleep(5000), {
-			loading: 'loading up',
-			success: 'succesful!!!',
-			error: 'some error message'
-		})}
->
-	push toast
-</button>
