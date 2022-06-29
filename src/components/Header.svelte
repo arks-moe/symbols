@@ -14,12 +14,15 @@
 </script>
 
 <div
-	class="navbar max-w-2xl mx-auto bg-primary rounded-b-box text-primary-content sticky top-0 bg-opacity-75 backdrop-blur z-50"
+	class="navbar justify-between
+	max-w-2xl flex-wrap mx-auto bg-primary 
+	rounded-b-box text-primary-content sticky 
+	top-0 bg-opacity-75 backdrop-blur z-50"
 >
-	<div class="flex-1">
+	<div class="mx-auto sm:ml-0">
 		<a class="btn btn-ghost normal-case text-3xl font-black" href="/">Symbol Bucket</a>
 	</div>
-	<div class="flex-none">
+	<div class="ml-auto">
 		<ul class="flex gap-2">
 			{#if $user}
 				<li><a class="btn btn-ghost" href="/upload">Upload</a></li>

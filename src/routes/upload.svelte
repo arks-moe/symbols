@@ -17,10 +17,12 @@
 
 	let previewOpen = false;
 	let loading = false;
+	let disabled = false;
 
 	$: if (files && files[0]) loadFile(files[0]);
 
 	function loadFile(sarFile) {
+		disabled = true;
 		previewOpen = true;
 		loading = true;
 		sarFile
@@ -37,6 +39,9 @@
 				loadedFile = null;
 				previewOpen = false;
 				loading = false;
+			})
+			.finally(() => {
+				disabled = false;
 			});
 	}
 
@@ -44,6 +49,8 @@
 	let title = '';
 
 	function upload(event) {
+		if (disabled) return;
+		disabled = true;
 		toastPromise(
 			fetch(renderedFile)
 				.then(res => res.blob())
@@ -68,6 +75,10 @@
 					event.target.reset();
 					loadedFile = null;
 					previewOpen = false;
+					renderedFile = null;
+				})
+				.finally(() => {
+					disabled = false;
 				}),
 			{
 				loading: 'Uploading Post...',
@@ -90,8 +101,10 @@
 <div class="max-w-xl mx-auto p-4 rounded-box my-8">
 	<form on:submit|preventDefault={upload} class="flex flex-col items-center gap-4">
 		<div class="rounded-box bg-base-100 p-4 w-full">
-			<label for="file" class="btn btn-block btn-secondary">Load .sar file</label>
-			<input type="file" name="file" id="file" accept=".sar" bind:files hidden />
+			<label for="file" class={`btn btn-block btn-secondary ${disabled ? 'btn-disabled' : ''}`}
+				>Load .sar file</label
+			>
+			<input {disabled} type="file" name="file" id="file" accept=".sar" bind:files hidden />
 		</div>
 
 		{#if previewOpen}
@@ -116,13 +129,14 @@
 								type="text"
 								class="input h-fit w-full bg-base-300 p-2 leading-none"
 								required
+								{disabled}
 							/>
 						</div>
 					</div>
 				</div>
 
 				<div class="rounded-box bg-base-100 p-4 w-full">
-					<button class="btn btn-block btn-accent">Upload!</button>
+					<button {disabled} class="btn btn-block btn-accent">Upload!</button>
 				</div>
 			{/if}
 		{/if}

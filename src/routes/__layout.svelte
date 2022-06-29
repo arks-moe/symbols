@@ -19,7 +19,9 @@
 
 <SvelteToast
 	options={{
-		duration: 2000
+		duration: 2000,
+		reversed: true,
+		intro: { y: 192 }
 	}}
 />
 
@@ -27,3 +29,12 @@
 	<Header />
 	<slot />
 </div>
+
+<style>
+	:root {
+		--toastContainerTop: auto;
+		--toastContainerRight: auto;
+		--toastContainerBottom: 1rem;
+		--toastContainerLeft: calc(50vw - 8rem);
+	}
+</style>
