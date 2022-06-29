@@ -17,7 +17,7 @@
 	}
 </script>
 
-<div class="card card-compact bg-base-300 w-fit">
+<div class="card card-compact bg-base-300 text-base-content w-fit">
 	<div class="card-body items-center">
 		<div class="card-title justify-between gap-4 w-full">
 			{#if $user}
@@ -29,16 +29,12 @@
 						/>
 					</div>
 				</div>
-			{:else}
-				<div class="avatar placeholder">
-					<div class="w-8 rounded-full bg-neutral-focus" />
-				</div>
 			{/if}
 			<h2>
 				{#if $user}
 					@{$user.user_metadata.preferred_username}
 				{:else}
-					???
+					Not Logged In
 				{/if}
 			</h2>
 		</div>

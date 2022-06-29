@@ -1,13 +1,24 @@
 <script>
-	// @ts-nocheck
-	import supabase from '$lib/supabase-client';
-	import user from '$stores/userSession';
-	import UserWidget from '$components/UserWidget.svelte';
+	import bucketDownloadRename from '$lib/bucket-download-rename';
+	import { toastPromise } from '$lib/toasts';
 
-	supabase.auth.onAuthStateChange((event, session) => {
-		console.log('Auth State has Changed:', event, session);
-		$user = supabase.auth.user();
-	});
+	const sleep = t => new Promise(resolve => setTimeout(resolve, t));
 </script>
 
-<UserWidget />
+<button
+	class="btn"
+	on:click={() => {
+		bucketDownloadRename('symbols', 'thumbnail-shrimp.png', 'bazingabruh.png');
+	}}>Download but epic</button
+>
+
+<button
+	on:click={() =>
+		toastPromise(sleep(5000), {
+			loading: 'loading up',
+			success: 'succesful!!!',
+			error: 'some error message'
+		})}
+>
+	push toast
+</button>
