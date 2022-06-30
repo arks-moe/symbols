@@ -1,6 +1,7 @@
 <script>
 	import supabase from '$lib/supabase-client';
 	import { onMount } from 'svelte';
+	import SymbolArtCard from '$components/SymbolArtCard.svelte';
 
 	onMount(async () => {
 		const { body, error } = await supabase.rpc('posts_meta', { page: 0 });
@@ -17,13 +18,10 @@
 	$: console.log(posts);
 </script>
 
-<div class="max-w-4xl mx-auto ">
-	<ul class="grid md:grid-cols-2 gap-4 p-4">
+<div class="max-w-7xl mx-auto ">
+	<ul class="grid lg:grid-cols-2 gap-4 p-4">
 		{#each posts as post}
-			<li class="rounded-box bg-base-100 grid grid-cols-6 gap-2 p-2">
-				<img class="col-span-2 rounded-box" src={post.thumbnail} alt="" />
-				<h3 class="col-span-4">{post.title}</h3>
-			</li>
+			<SymbolArtCard {post} />
 		{/each}
 	</ul>
 </div>
