@@ -1,17 +1,18 @@
 <script>
 	import bucketDownloadRename from '$lib/bucket-download-rename';
+	import supabase from '$lib/supabase-client';
 	export let post;
 	const {
-		post_id,
 		title,
 		sar_filename,
 		thumbnail_filename,
 		created_at,
-		user_id,
 		picture,
 		username,
-		thumbnail
+		ingame_name,
+		ingame_sound_id
 	} = post;
+	const thumbnail = supabase.storage.from('symbols').getPublicUrl(thumbnail_filename).publicURL;
 	const formattedDate = new Date(created_at).toLocaleDateString();
 
 	function download() {
@@ -29,9 +30,13 @@
 			<img class="h-8 rounded-full" src={picture} alt="" />
 			<h4 class="font-semibold">@{username}</h4>
 		</div>
-		<div class="flex">
-			<div class="badge badge-ghost">in-game Name</div>
-			<div class="badge badge-ghost">Sound</div>
+		<div class="flex gap-2">
+			{#if ingame_name}
+				<div class="badge badge-ghost">{ingame_name}</div>
+			{/if}
+			{#if ingame_sound_id}
+				<div class="badge badge-ghost">{ingame_sound_id}</div>
+			{/if}
 		</div>
 		<h4 class="text-sm italic">posted on {formattedDate}</h4>
 	</div>

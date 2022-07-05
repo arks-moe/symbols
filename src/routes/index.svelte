@@ -6,11 +6,7 @@
 	onMount(async () => {
 		const { body, error } = await supabase.rpc('posts_meta', { page: 0 });
 		if (error) console.error(error);
-		const bodyParsed = body.map(e => {
-			e.thumbnail = supabase.storage.from('symbols').getPublicUrl(e.thumbnail_filename).publicURL;
-			return e;
-		});
-		posts = bodyParsed;
+		posts = body;
 	});
 
 	/** @type {import('$lib/types').Post[]} */
