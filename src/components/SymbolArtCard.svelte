@@ -7,7 +7,6 @@
 		sar_filename,
 		thumbnail_filename,
 		created_at,
-		picture,
 		username,
 		ingame_name,
 		ingame_sound_id
@@ -20,17 +19,14 @@
 	}
 </script>
 
-<li class="rounded-box bg-base-100 flex gap-2 p-2 items-center">
-	<div class="aspect-[2/1] w-1/3">
-		<img class="rounded-box" src={thumbnail} alt="" />
+<li class="p-2 bg-base-100 flex flex-col justify-between">
+	<div class="aspect-[2/1]">
+		<img src={thumbnail} alt="" />
 	</div>
-	<div class="flex-1 flex flex-col gap-2">
-		<h3 class="font-bold">{title}</h3>
-		<div class="flex justify-start items-center gap-2">
-			<img class="h-8 rounded-full" src={picture} alt="" />
-			<h4 class="font-semibold">@{username}</h4>
-		</div>
-		<div class="flex gap-2">
+	<div class="flex-1">
+		<h3 class="font-semibold text-lg">{title}</h3>
+		<h4 class="italic">@{username}</h4>
+		<div class="flex gap-2 py-2">
 			{#if ingame_name}
 				<div class="badge badge-ghost">{ingame_name}</div>
 			{/if}
@@ -40,7 +36,7 @@
 		</div>
 		<h4 class="text-sm italic">posted on {formattedDate}</h4>
 	</div>
-	<div class="flex-shrink h-full">
-		<button on:click={download} class="btn btn-secondary h-full">DL</button>
+	<div class="pt-2">
+		<button on:click={download} class="btn btn-secondary btn-sm btn-block">DL</button>
 	</div>
 </li>

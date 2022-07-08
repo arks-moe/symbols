@@ -14,10 +14,13 @@
 	$: console.log(posts);
 </script>
 
-<div class="max-w-7xl mx-auto ">
-	<ul class="grid lg:grid-cols-2 gap-4 p-4">
+<div class="max-w-5xl mx-auto p-2">
+	<h2 class="font-bold text-3xl text-center p-8">Latest 20 Uploads</h2>
+	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
 		{#each posts as post}
 			<SymbolArtCard {post} />
 		{/each}
 	</ul>
 </div>
+
+<div class="mx-auto w-fit py-16"><a href="./catalog/1" class="btn">to Catalog</a></div>
