@@ -12,6 +12,10 @@
 	/** @type {File | null} - A successfully loaded file */
 	let loadedFile;
 
+	/** @type {Object | null} - The parsed sar buffer as an object */
+	let parsedSar;
+	$: console.log(parsedSar);
+
 	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
 
@@ -28,7 +32,10 @@
 		sarFile
 			.arrayBuffer()
 			.then(processSarBuffer)
-			.then(renderSar)
+			.then(sar => {
+				parsedSar = sar;
+				return renderSar(sar);
+			})
 			.then(dataUrl => {
 				loadedFile = sarFile;
 				renderedFile = dataUrl;
@@ -37,6 +44,7 @@
 			.catch(err => {
 				toastError(err.message);
 				loadedFile = null;
+				parsedSar = null;
 				previewOpen = false;
 				loading = false;
 			})
@@ -57,10 +65,14 @@
 				.then(thumbnail => {
 					if (!supabase.auth.session()) throw new Error('Authentication required.');
 
+					const { name, layerCount, soundEffect } = parsedSar;
 					const formData = new FormData();
 					formData.append('title', title);
 					formData.append('sar', loadedFile);
 					formData.append('thumbnail', thumbnail);
+					formData.append('ingame_name', name);
+					formData.append('ingame_layer_count', layerCount);
+					formData.append('ingame_sound_id', soundEffect);
 
 					return fetch('/api/upload', {
 						method: 'POST',
@@ -74,6 +86,7 @@
 					console.log(json);
 					event.target.reset();
 					loadedFile = null;
+					parsedSar = null;
 					previewOpen = false;
 					renderedFile = null;
 				})

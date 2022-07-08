@@ -20,7 +20,11 @@ const postSchema = yup.object({
 		.test(
 			'Is File{}', 
 			`"thumbnail" is not a image/png`, 
-			value => value.type === 'image/png')
+			value => value.type === 'image/png'),
+	ingame_name: yup.string(),
+	ingame_sound_id: yup.number(),
+	ingame_layer_count: yup.number()
+	
 });
 
 /** @type {import('./__types/upload').RequestHandler} */
@@ -33,10 +37,16 @@ export async function post({ request }) {
 		const { sub: user_id } = jwt.verify(token, process.env.SECRET_KEY);
 		const formData = await request.formData();
 		const body = getFormBody(formData);
-		const { title, sar, thumbnail } = body;
-		await postSchema.validate({ title, sar, thumbnail });
+		const { title, sar, thumbnail, ingame_name, ingame_sound_id, ingame_layer_count } = body;
+		await postSchema.validate({
+			title,
+			sar,
+			thumbnail,
+			ingame_name,
+			ingame_sound_id,
+			ingame_layer_count
+		});
 
-		// TODO - Upload files to bucket and await success
 		const filename = crypto.randomUUID();
 		const sar_filename = `${filename}.sar`;
 		const thumbnail_filename = `thumbnail-${filename}.png`;
@@ -64,9 +74,12 @@ export async function post({ request }) {
 		} = await supabase.from('posts').insert([
 			{
 				user_id,
-				title,
 				sar_filename,
-				thumbnail_filename
+				thumbnail_filename,
+				title,
+				ingame_name,
+				ingame_sound_id,
+				ingame_layer_count
 			}
 		]);
 

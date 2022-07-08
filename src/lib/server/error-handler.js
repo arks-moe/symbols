@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import ClientError from '$lib/server/client-error';
 
 export default function errorHandler(err) {
+	console.error(err);
 	if (err instanceof ClientError) {
 		const { status, message } = err;
 		return {

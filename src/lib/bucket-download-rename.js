@@ -12,5 +12,6 @@ export default function bucketDownloadRename(bucket, filename, newname) {
 			a.href = href;
 			a.download = newname;
 			a.click();
+			URL.revokeObjectURL(href);
 		});
 }
