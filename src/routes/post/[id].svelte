@@ -31,7 +31,7 @@
 </script>
 
 {#if post}
-	<div class="max-w-xl mx-auto py-16">
+	<div class="max-w-xl mx-auto py-8">
 		<SymbolArtCard {post} />
 	</div>
 {:else}
