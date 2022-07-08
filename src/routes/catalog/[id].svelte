@@ -26,10 +26,17 @@
 	$: console.log(posts);
 </script>
 
-<div class="flex justify-between gap-2 max-w-sm mx-auto py-16">
-	<a href={`./${Number(id) - 1}`} class="btn">Previous</a>
-	<h2 class="font-bold text-3xl text-center">Page {id}</h2>
-	<a href={`./${Number(id) + 1}`} class="btn">Next</a>
+<div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">
+	<div class="col-span-1">
+		<a href={`./${Number(id) - 1}`} class="btn btn-block" disabled={Number(id) > 1}>Previous</a>
+	</div>
+	<div class="col-span-1">
+		<h2 class="font-bold text-3xl text-center">Page {id}</h2>
+	</div>
+
+	<div class="col-span-1">
+		<a href={`./${Number(id) + 1}`} class="btn btn-block" disabled={posts.length >= 20}>Next</a>
+	</div>
 </div>
 
 <div class="max-w-5xl mx-auto p-2">
@@ -40,8 +47,15 @@
 	</ul>
 </div>
 
-<div class="flex justify-between gap-2 max-w-sm mx-auto py-16">
-	<a href={`./${Number(id) - 1}`} class="btn">Previous</a>
-	<h2 class="font-bold text-3xl text-center">Page {id}</h2>
-	<a href={`./${Number(id) + 1}`} class="btn">Next</a>
+<div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">
+	<div class="col-span-1">
+		<a href={`./${Number(id) - 1}`} class="btn btn-block" disabled={Number(id) > 1}>Previous</a>
+	</div>
+	<div class="col-span-1">
+		<h2 class="font-bold text-3xl text-center">Page {id}</h2>
+	</div>
+
+	<div class="col-span-1">
+		<a href={`./${Number(id) + 1}`} class="btn btn-block" disabled={posts.length >= 20}>Next</a>
+	</div>
 </div>

@@ -1,6 +1,7 @@
 <script>
 	import supabase from '$lib/supabase-client';
 	import user from '$stores/userSession';
+	import AudioPlayer from '$components/AudioPlayer.svelte';
 
 	import '../app.css';
 	import Header from '$components/Header.svelte';
@@ -16,6 +17,8 @@
 		$user = supabase.auth.user();
 	});
 </script>
+
+<AudioPlayer />
 
 <SvelteToast
 	options={{
