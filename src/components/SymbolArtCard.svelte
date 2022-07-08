@@ -6,6 +6,7 @@
 	export let post;
 	const {
 		title,
+		post_id,
 		sar_filename,
 		thumbnail_filename,
 		created_at,
@@ -27,7 +28,9 @@
 		<img src={thumbnail} alt="" />
 	</div>
 	<div class="flex-1">
-		<h3 class="font-semibold text-lg">{title}</h3>
+		<a href={`/posts/${post_id}`}>
+			<h3 class="font-semibold text-lg link-hover">{title}</h3>
+		</a>
 		<h4 class="italic">@{username}</h4>
 		<div class="flex gap-2 py-2">
 			{#if ingame_name}
