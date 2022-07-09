@@ -4,6 +4,9 @@
 	/** @type {import('./__types/[id]').Load} */
 	export async function load({ params }) {
 		const { id: id_of_post } = params;
+		if (Number.isNaN(Number(id_of_post))) {
+			return {};
+		}
 		const {
 			data: [post],
 			error
