@@ -13,7 +13,7 @@
 
 	async function signout() {
 		const { error } = await supabase.auth.signOut();
-		if (error) console.log('error:', error);
+		if (error) console.error('error:', error);
 	}
 </script>
 

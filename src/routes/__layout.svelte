@@ -9,7 +9,6 @@
 	import { onMount } from 'svelte';
 
 	supabase.auth.onAuthStateChange((event, session) => {
-		console.log('Auth State has Changed:', event, session);
 		$user = supabase.auth.user();
 	});
 
@@ -17,6 +16,11 @@
 		$user = supabase.auth.user();
 	});
 </script>
+
+<svelte:head>
+	<meta property="og:site_name" content="Symbol Bucket" />
+	<meta property="og:url" content="https://symbols.arks.moe/" />
+</svelte:head>
 
 <AudioPlayer />
 

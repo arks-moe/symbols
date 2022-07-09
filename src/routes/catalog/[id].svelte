@@ -23,7 +23,6 @@
 
 	/** @type {import('$lib/types').Post[]} */
 	let posts = [];
-	$: console.log(posts);
 </script>
 
 <div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">

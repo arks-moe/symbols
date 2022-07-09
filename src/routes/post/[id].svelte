@@ -31,7 +31,19 @@
 
 	export let post;
 	export let id_of_post;
+	const thumbnail = post
+		? supabase.storage.from('symbols').getPublicUrl(post.thumbnail_filename).publicURL
+		: null;
 </script>
+
+<svelte:head>
+	{#if post}
+		<meta property="og:title" content={post.title} />
+		<meta property="og:image" content={thumbnail} />
+		<meta property="og:description" content={`from @${post.username}`} />
+		<meta property="twitter:card" content="summary_large_image" />
+	{/if}
+</svelte:head>
 
 {#if post}
 	<div class="max-w-xl mx-auto py-8">

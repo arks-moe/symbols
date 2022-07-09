@@ -15,7 +15,6 @@
 
 	/** @type {import('$lib/types').Post[]} */
 	export let posts = [];
-	$: console.log(posts);
 </script>
 
 <div class="max-w-5xl mx-auto p-2">
