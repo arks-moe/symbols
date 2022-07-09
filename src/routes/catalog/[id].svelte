@@ -25,6 +25,14 @@
 	let posts = [];
 </script>
 
+<svelte:head>
+	<title>Catalog: Page {id} | Symbol Bucket</title>
+	<meta property="og:title" content="Symbol Bucket" />
+	<meta property="og:image" content="https://symbols.arks.moe/default-embed.png" />
+	<meta property="og:description" content="Upload and share your Symbol Arts!" />
+	<meta name="twitter:card" content="summary" />
+</svelte:head>
+
 <div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">
 	<div class="col-span-1">
 		<a href={`./${Number(id) - 1}`} class="btn btn-block" disabled={Number(id) > 1}>Previous</a>

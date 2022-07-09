@@ -2,22 +2,29 @@
 	import supabase from '$lib/supabase-client';
 	import user from '$stores/userSession';
 	import UserWidget from './UserWidget.svelte';
+	import { dev } from '$app/env';
 
 	async function signInWithTwitter() {
-		const { user, session, error } = await supabase.auth.signIn({
-			provider: 'twitter'
-		});
+		console.log(dev);
+		const { user, session, error } = await supabase.auth.signIn(
+			{
+				provider: 'twitter'
+			},
+			{
+				redirectTo: dev ? 'http://localhost:3000' : 'https://symbols.arks.moe'
+			}
+		);
 		if (error) console.error('error:', error);
 	}
 </script>
 
 <div
 	class="navbar justify-between
-	max-w-2xl flex-wrap mx-auto bg-primary 
+	max-w-3xl mx-auto bg-primary 
 	rounded-b-box text-primary-content sticky 
 	top-0 bg-opacity-75 backdrop-blur z-50"
 >
-	<div class="mx-auto sm:ml-0">
+	<div class="">
 		<a class="btn btn-ghost normal-case text-3xl font-black" href="/">Symbol Bucket</a>
 	</div>
 	<div class="ml-auto">
