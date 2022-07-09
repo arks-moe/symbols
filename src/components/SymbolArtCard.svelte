@@ -6,6 +6,7 @@
 	export let post;
 	const {
 		title,
+		post_id,
 		sar_filename,
 		thumbnail_filename,
 		created_at,
@@ -16,18 +17,21 @@
 	const sound = sounds[ingame_sound_id];
 	const thumbnail = supabase.storage.from('symbols').getPublicUrl(thumbnail_filename).publicURL;
 	const formattedDate = new Date(created_at).toLocaleDateString();
+	const postUrl = `/post/${post_id}`;
 
 	function download() {
 		bucketDownloadRename('symbols', sar_filename, `${title}.sar`);
 	}
 </script>
 
-<li class="p-2 bg-base-100 flex flex-col justify-between">
-	<div class="aspect-[2/1]">
-		<img src={thumbnail} alt="" />
+<li class="rounded-box p-2 bg-base-100 flex flex-col justify-between">
+	<div class="aspect-[2/1] hover:translate-y-0.5">
+		<a href={postUrl}><img class="rounded-box" src={thumbnail} alt="" /></a>
 	</div>
 	<div class="flex-1">
-		<h3 class="font-semibold text-lg">{title}</h3>
+		<a href={postUrl}>
+			<h3 class="font-semibold text-lg link-hover">{title}</h3>
+		</a>
 		<h4 class="italic">@{username}</h4>
 		<div class="flex gap-2 py-2">
 			{#if ingame_name}

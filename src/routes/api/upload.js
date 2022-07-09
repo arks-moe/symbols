@@ -87,8 +87,6 @@ export async function post({ request }) {
 			throw new Error('Upload failed, something went wrong...');
 		}
 
-		console.log(newPost);
-
 		return { status: 201, body: newPost };
 	} catch (err) {
 		console.error(err);
