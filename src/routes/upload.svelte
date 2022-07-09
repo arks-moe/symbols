@@ -88,6 +88,7 @@
 	import processSarBuffer from '$lib/symbol/sar-parse';
 	import { toastError, toastPromise, toastSuccess } from '$lib/toasts';
 	import supabase from '$lib/supabase-client';
+	import { goto } from '$app/navigation';
 
 	/** @type {File[] | null} */
 	let files;
@@ -97,7 +98,6 @@
 
 	/** @type {Object | null} - The parsed sar buffer as an object */
 	let parsedSar;
-	$: console.log(parsedSar);
 
 	/** @type {String} - Data URL of Rendered Image */
 	let renderedFile;
@@ -166,12 +166,12 @@
 				.then(res => Promise.all([res.ok, res.json()]))
 				.then(([ok, json]) => {
 					if (!ok) throw new Error(json.error);
-					console.log(json);
 					event.target.reset();
 					loadedFile = null;
 					parsedSar = null;
 					previewOpen = false;
 					renderedFile = null;
+					goto(`/post/${json.id}`);
 				})
 				.finally(() => {
 					disabled = false;
