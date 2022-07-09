@@ -17,6 +17,14 @@
 	export let posts = [];
 </script>
 
+<svelte:head>
+	<title>Home | Symbol Bucket</title>
+	<meta property="og:title" content="Home" />
+	<meta property="og:image" content="https://symbols.arks.moe/default-embed.png" />
+	<meta property="og:description" content="Upload and share your Symbol Arts!" />
+	<meta name="twitter:card" content="summary" />
+</svelte:head>
+
 <div class="max-w-5xl mx-auto p-2">
 	<h2 class="font-bold text-3xl text-center p-8">Latest 20 Uploads</h2>
 	{#if posts.length <= 0}
