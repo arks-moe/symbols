@@ -8,7 +8,7 @@ import supabase from '$lib/supabase-server-client';
 
 //prettier-ignore
 const postSchema = yup.object({
-	title: yup.string().trim().required(),
+	title: yup.string().trim().length(30).required(),
 	sar: yup
 		.mixed()
 		.test(
@@ -24,7 +24,6 @@ const postSchema = yup.object({
 	ingame_name: yup.string(),
 	ingame_sound_id: yup.number(),
 	ingame_layer_count: yup.number()
-	
 });
 
 /** @type {import('./__types/upload').RequestHandler} */
