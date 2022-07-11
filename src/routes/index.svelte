@@ -33,7 +33,7 @@
 		<h3>Unable to find any posts</h3>
 	{/if}
 	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
-		{#each posts as post}
+		{#each posts as post (post.post_id)}
 			<SymbolArtCard {post} />
 		{/each}
 	</ul>

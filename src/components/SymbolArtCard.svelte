@@ -1,14 +1,16 @@
 <script>
 	import bucketDownloadRename from '$lib/bucket-download-rename';
 	import supabase from '$lib/supabase-client';
-	import { playSound } from './AudioPlayer.svelte';
 	import sounds from '$lib/symbol/sound-catalog';
-	import { goto } from '$app/navigation';
 	import user from '$stores/userSession';
-	import { toastSuccess } from '$lib/toasts';
-	export let post;
-	let currentUser = $user ? $user.id : null;
+	import { playSound } from './AudioPlayer.svelte';
+	import { goto } from '$app/navigation';
+	import { toastPromise } from '$lib/toasts';
+
+	let currentUser;
 	$: currentUser = $user ? $user.id : null;
+
+	export let post;
 
 	const {
 		title,
@@ -30,16 +32,22 @@
 		bucketDownloadRename('symbols', sar_filename, `${title}.sar`);
 	}
 
-	async function deletePost() {
-		const { data, error } = await supabase
-			.from('posts')
-			.delete({ returning: 'representation' })
-			.eq('id', post_id);
-		if (error) console.error(error);
-		if (data) {
-			toastSuccess('Post has been deleted!');
-			goto('/');
-		}
+	function deletePost() {
+		toastPromise(
+			async () => {
+				const { data, error } = await supabase
+					.from('posts')
+					.delete({ returning: 'representation' })
+					.eq('id', post_id);
+				if (error) throw new Error(error.message);
+				if (!data[0]) throw new Error(`Couldn't find post with ID ${post_id}`);
+				goto('/');
+			},
+			{
+				loading: 'Deleting post...',
+				success: 'Post has been deleted!'
+			}
+		);
 	}
 </script>
 

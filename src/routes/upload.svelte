@@ -143,39 +143,40 @@
 		if (disabled) return;
 		disabled = true;
 		toastPromise(
-			fetch(renderedFile)
-				.then(res => res.blob())
-				.then(thumbnail => {
-					if (!supabase.auth.session()) throw new Error('Authentication required.');
+			async () =>
+				fetch(renderedFile)
+					.then(res => res.blob())
+					.then(thumbnail => {
+						if (!supabase.auth.session()) throw new Error('Authentication required.');
 
-					const { name, layerCount, soundEffect } = parsedSar;
-					const formData = new FormData();
-					formData.append('title', title);
-					formData.append('sar', loadedFile);
-					formData.append('thumbnail', thumbnail);
-					formData.append('ingame_name', name);
-					formData.append('ingame_layer_count', layerCount);
-					formData.append('ingame_sound_id', soundEffect);
+						const { name, layerCount, soundEffect } = parsedSar;
+						const formData = new FormData();
+						formData.append('title', title);
+						formData.append('sar', loadedFile);
+						formData.append('thumbnail', thumbnail);
+						formData.append('ingame_name', name);
+						formData.append('ingame_layer_count', layerCount);
+						formData.append('ingame_sound_id', soundEffect);
 
-					return fetch('/api/upload', {
-						method: 'POST',
-						body: formData,
-						headers: { 'X-Access-Token': supabase.auth.session().access_token }
-					});
-				})
-				.then(res => Promise.all([res.ok, res.json()]))
-				.then(([ok, json]) => {
-					if (!ok) throw new Error(json.error);
-					event.target.reset();
-					loadedFile = null;
-					parsedSar = null;
-					previewOpen = false;
-					renderedFile = null;
-					goto(`/post/${json.id}`);
-				})
-				.finally(() => {
-					disabled = false;
-				}),
+						return fetch('/api/upload', {
+							method: 'POST',
+							body: formData,
+							headers: { 'X-Access-Token': supabase.auth.session().access_token }
+						});
+					})
+					.then(res => Promise.all([res.ok, res.json()]))
+					.then(([ok, json]) => {
+						if (!ok) throw new Error(json.error);
+						event.target.reset();
+						loadedFile = null;
+						parsedSar = null;
+						previewOpen = false;
+						renderedFile = null;
+						goto(`/post/${json.id}`);
+					})
+					.finally(() => {
+						disabled = false;
+					}),
 			{
 				loading: 'Uploading Post...',
 				success: 'Post has been uploaded!'

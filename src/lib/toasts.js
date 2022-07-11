@@ -34,7 +34,7 @@ export async function toastPromise(promise, messages) {
 		dismissable: false
 	});
 	try {
-		await promise;
+		await promise();
 		toast.set(toastId, {
 			msg: success,
 			theme: {
