@@ -184,7 +184,7 @@
 	}
 </script>
 
-<svelte:head>Upload | Symbol Bucket</svelte:head>
+<svelte:head><title>Upload | Symbol Bucket</title></svelte:head>
 
 <svelte:window
 	on:dragenter|preventDefault|stopPropagation

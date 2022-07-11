@@ -3,7 +3,13 @@
 	import supabase from '$lib/supabase-client';
 	import { playSound } from './AudioPlayer.svelte';
 	import sounds from '$lib/symbol/sound-catalog';
+	import { goto } from '$app/navigation';
+	import user from '$stores/userSession';
+	import { toastSuccess } from '$lib/toasts';
 	export let post;
+	let currentUser = $user ? $user.id : null;
+	$: currentUser = $user ? $user.id : null;
+
 	const {
 		title,
 		post_id,
@@ -11,6 +17,7 @@
 		thumbnail_filename,
 		created_at,
 		username,
+		user_id,
 		ingame_name,
 		ingame_sound_id
 	} = post;
@@ -21,6 +28,18 @@
 
 	function download() {
 		bucketDownloadRename('symbols', sar_filename, `${title}.sar`);
+	}
+
+	async function deletePost() {
+		const { data, error } = await supabase
+			.from('posts')
+			.delete({ returning: 'representation' })
+			.eq('id', post_id);
+		if (error) console.error(error);
+		if (data) {
+			toastSuccess('Post has been deleted!');
+			goto('/');
+		}
 	}
 </script>
 
@@ -52,7 +71,12 @@
 		</div>
 		<h4 class="text-sm italic">posted on {formattedDate}</h4>
 	</div>
-	<div class="pt-2">
-		<button on:click={download} class="btn btn-secondary btn-sm btn-block">DL</button>
+	<div class="pt-2 flex gap-2">
+		<button on:click={download} class="btn btn-secondary btn-sm flex-1">Download</button>
+		{#if user_id === currentUser}
+			<button on:click={() => deletePost()} class="btn btn-error btn-sm hover:brightness-95"
+				>Delete</button
+			>
+		{/if}
 	</div>
 </li>

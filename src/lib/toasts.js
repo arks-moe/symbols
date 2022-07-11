@@ -1,7 +1,12 @@
 import { toast } from '@zerodevx/svelte-toast';
 
 export function toastSuccess(msg) {
-	toast.push(msg);
+	toast.push(msg, {
+		theme: {
+			'--toastBackground': '#48BB78',
+			'--toastBarBackground': '#2F855A'
+		}
+	});
 }
 
 export function toastError(msg) {
