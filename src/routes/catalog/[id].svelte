@@ -23,6 +23,8 @@
 
 	/** @type {import('$lib/types').Post[]} */
 	let posts = [];
+
+	$: console.log(posts);
 </script>
 
 <svelte:head>
@@ -35,20 +37,28 @@
 
 <div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">
 	<div class="col-span-1">
-		<a href={`./${Number(id) - 1}`} class="btn btn-block" disabled={Number(id) > 1}>Previous</a>
+		<a href={`./${Number(id) - 1}`} class="btn btn-block {Number(id) === 1 ? 'btn-disabled' : ''}"
+			>Previous</a
+		>
 	</div>
+
 	<div class="col-span-1">
 		<h2 class="font-bold text-3xl text-center">Page {id}</h2>
 	</div>
 
 	<div class="col-span-1">
-		<a href={`./${Number(id) + 1}`} class="btn btn-block" disabled={posts.length >= 20}>Next</a>
+		<a href={`./${Number(id) + 1}`} class="btn btn-block {posts.length < 20 ? 'btn-disabled' : ''}"
+			>Next</a
+		>
 	</div>
 </div>
 
 <div class="max-w-5xl mx-auto p-2">
+	{#if posts.length <= 0}
+		<h3>Unable to find any posts</h3>
+	{/if}
 	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
-		{#each posts as post}
+		{#each posts as post (post.post_id)}
 			<SymbolArtCard {post} />
 		{/each}
 	</ul>
@@ -56,13 +66,18 @@
 
 <div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-16">
 	<div class="col-span-1">
-		<a href={`./${Number(id) - 1}`} class="btn btn-block" disabled={Number(id) > 1}>Previous</a>
+		<a href={`./${Number(id) - 1}`} class="btn btn-block {Number(id) === 1 ? 'btn-disabled' : ''}"
+			>Previous</a
+		>
 	</div>
+
 	<div class="col-span-1">
 		<h2 class="font-bold text-3xl text-center">Page {id}</h2>
 	</div>
 
 	<div class="col-span-1">
-		<a href={`./${Number(id) + 1}`} class="btn btn-block" disabled={posts.length >= 20}>Next</a>
+		<a href={`./${Number(id) + 1}`} class="btn btn-block {posts.length < 20 ? 'btn-disabled' : ''}"
+			>Next</a
+		>
 	</div>
 </div>
