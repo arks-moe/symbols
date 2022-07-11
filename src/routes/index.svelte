@@ -26,7 +26,9 @@
 </svelte:head>
 
 <div class="max-w-5xl mx-auto p-2">
-	<h2 class="font-bold text-3xl text-center p-8">Latest 20 Uploads</h2>
+	<h2 class="font-bold text-3xl text-center py-2">Latest 20 Uploads</h2>
+	<div class="mx-auto w-fit py-2"><a href="./catalog/1" class="btn">to Catalog</a></div>
+
 	{#if posts.length <= 0}
 		<h3>Unable to find any posts</h3>
 	{/if}
@@ -37,4 +39,4 @@
 	</ul>
 </div>
 
-<div class="mx-auto w-fit py-16"><a href="./catalog/1" class="btn">to Catalog</a></div>
+<div class="mx-auto w-fit p-2"><a href="./catalog/1" class="btn">to Catalog</a></div>

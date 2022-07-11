@@ -32,9 +32,14 @@
 	}}
 />
 
-<div class="bg-base-300 min-h-screen">
+<div class="bg-base-300 min-h-screen pb-16">
 	<Header />
 	<slot />
+	<div class="w-fit mx-auto pt-4">
+		<a href="https://github.com/arks-moe/symbol-bucket" class="btn btn-circle btn-ghost"
+			><i class="text-4xl fa-brands fa-github" /></a
+		>
+	</div>
 </div>
 
 <style>
