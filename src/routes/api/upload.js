@@ -8,7 +8,7 @@ import supabase from '$lib/supabase-server-client';
 
 //prettier-ignore
 const postSchema = yup.object({
-	title: yup.string().trim().length(30).required(),
+	title: yup.string().trim().max(30).required(),
 	sar: yup
 		.mixed()
 		.test(
