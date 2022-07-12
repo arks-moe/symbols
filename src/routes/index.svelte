@@ -12,9 +12,12 @@
 <script>
 	import supabase from '$lib/supabase-client';
 	import SymbolArtCard from '$components/SymbolArtCard.svelte';
+	import { postView } from '$stores/postView';
 
 	/** @type {import('$lib/types').Post[]} */
 	export let posts = [];
+	$postView = posts;
+	$: console.log($postView);
 </script>
 
 <svelte:head>
@@ -29,11 +32,11 @@
 	<h2 class="font-bold text-3xl text-center py-2">Latest 20 Uploads</h2>
 	<div class="mx-auto w-fit py-2"><a href="./catalog/1" class="btn">to Catalog</a></div>
 
-	{#if posts.length <= 0}
+	{#if $postView.length <= 0}
 		<h3>Unable to find any posts</h3>
 	{/if}
 	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
-		{#each posts as post}
+		{#each $postView as post (post.post_id)}
 			<SymbolArtCard {post} />
 		{/each}
 	</ul>

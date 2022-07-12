@@ -1,94 +1,18 @@
 <script>
-	import { Sprite2d } from 'pixi-projection';
-	import convertRGBtoHex from '$lib/symbol/rgb-to-hex';
 	import { onMount } from 'svelte';
 
 	let renderSar;
 
 	onMount(async () => {
-		const PIXI = await import('pixi.js');
-		renderSar = sar => {
-			const promise = new Promise(resolve => {
-				PIXI.utils.destroyTextureCache();
-				const app = new PIXI.Application({
-					width: 760,
-					height: 380,
-					antialias: true,
-					preserveDrawingBuffer: true,
-					autoDensity: true,
-					backgroundAlpha: 0,
-					clearBeforeRender: true
-				});
-
-				const resolution = 4;
-
-				app.loader.add('spritesheet', '../spritesheet.json').load(() => {
-					const container = new PIXI.Container();
-					app.stage.addChild(container);
-
-					const spritesheet = app.loader.resources.spritesheet;
-
-					const layers = [...sar.layers].reverse();
-
-					const offsetX = -126;
-					const offsetY = -317;
-
-					for (let i = 0; i < layers.length; i++) {
-						const layer = layers[i];
-						const layerPath = `${layer.props.textureIndex + 1}.png`;
-						const corners = [
-							{
-								x: layer.points.topLeft.x * resolution + offsetX,
-								y: layer.points.topLeft.y * resolution + offsetY
-							},
-							{
-								x: layer.points.topRight.x * resolution + offsetX,
-								y: layer.points.topRight.y * resolution + offsetY
-							},
-							{
-								x: layer.points.bottomRight.x * resolution + offsetX,
-								y: layer.points.bottomRight.y * resolution + offsetY
-							},
-							{
-								x: layer.points.bottomLeft.x * resolution + offsetX,
-								y: layer.points.bottomLeft.y * resolution + offsetY
-							}
-						];
-						const { props } = layer;
-						const { colorR, colorG, colorB, transparency, visible } = props;
-
-						let trueAlpha = transparency / 7;
-						if (!visible) trueAlpha = 0;
-
-						const trueR = colorR * 4;
-						const trueG = colorG * 4;
-						const trueB = colorB * 4;
-
-						const hex = convertRGBtoHex(trueR, trueG, trueB);
-
-						const sprite = new Sprite2d(spritesheet.textures[layerPath]);
-						sprite.anchor.set(0.5);
-						sprite.tint = hex;
-						sprite.alpha = trueAlpha;
-						sprite.proj.mapSprite(sprite, corners);
-
-						container.addChild(sprite);
-					}
-					app.renderer.addListener('postrender', () => {
-						resolve(app.view.toDataURL());
-						app.destroy();
-					});
-				});
-			});
-
-			return promise;
-		};
+		renderSar = (await import('$lib/symbol/render')).default;
 	});
 
 	import processSarBuffer from '$lib/symbol/sar-parse';
 	import { toastError, toastPromise, toastSuccess } from '$lib/toasts';
 	import supabase from '$lib/supabase-client';
 	import { goto } from '$app/navigation';
+	import { postSchema } from '$lib/schemas';
+	import { reach } from 'yup';
 
 	/** @type {File[] | null} */
 	let files;
@@ -139,43 +63,55 @@
 	/** @type {String} - User input for title of post */
 	let title = '';
 
+	function handleInput(e) {
+		let { value, name } = e.target;
+		let isValid = reach(postSchema, name).isValidSync(value);
+		console.log(isValid);
+		if (!isValid && value.length !== 0) {
+			e.target.value = title;
+			return;
+		}
+		title = value;
+	}
+
 	function upload(event) {
 		if (disabled) return;
 		disabled = true;
 		toastPromise(
-			fetch(renderedFile)
-				.then(res => res.blob())
-				.then(thumbnail => {
-					if (!supabase.auth.session()) throw new Error('Authentication required.');
+			async () =>
+				fetch(renderedFile)
+					.then(res => res.blob())
+					.then(thumbnail => {
+						if (!supabase.auth.session()) throw new Error('Authentication required.');
 
-					const { name, layerCount, soundEffect } = parsedSar;
-					const formData = new FormData();
-					formData.append('title', title);
-					formData.append('sar', loadedFile);
-					formData.append('thumbnail', thumbnail);
-					formData.append('ingame_name', name);
-					formData.append('ingame_layer_count', layerCount);
-					formData.append('ingame_sound_id', soundEffect);
+						const { name, layerCount, soundEffect } = parsedSar;
+						const formData = new FormData();
+						formData.append('title', title);
+						formData.append('sar', loadedFile);
+						formData.append('thumbnail', thumbnail);
+						formData.append('ingame_name', name);
+						formData.append('ingame_layer_count', layerCount);
+						formData.append('ingame_sound_id', soundEffect);
 
-					return fetch('/api/upload', {
-						method: 'POST',
-						body: formData,
-						headers: { 'X-Access-Token': supabase.auth.session().access_token }
-					});
-				})
-				.then(res => Promise.all([res.ok, res.json()]))
-				.then(([ok, json]) => {
-					if (!ok) throw new Error(json.error);
-					event.target.reset();
-					loadedFile = null;
-					parsedSar = null;
-					previewOpen = false;
-					renderedFile = null;
-					goto(`/post/${json.id}`);
-				})
-				.finally(() => {
-					disabled = false;
-				}),
+						return fetch('/api/upload', {
+							method: 'POST',
+							body: formData,
+							headers: { 'X-Access-Token': supabase.auth.session().access_token }
+						});
+					})
+					.then(res => Promise.all([res.ok, res.json()]))
+					.then(([ok, json]) => {
+						if (!ok) throw new Error(json.error);
+						event.target.reset();
+						loadedFile = null;
+						parsedSar = null;
+						previewOpen = false;
+						renderedFile = null;
+						goto(`/post/${json.id}`);
+					})
+					.finally(() => {
+						disabled = false;
+					}),
 			{
 				loading: 'Uploading Post...',
 				success: 'Post has been uploaded!'
@@ -184,7 +120,7 @@
 	}
 </script>
 
-<svelte:head>Upload | Symbol Bucket</svelte:head>
+<svelte:head><title>Upload | Symbol Bucket</title></svelte:head>
 
 <svelte:window
 	on:dragenter|preventDefault|stopPropagation
@@ -220,10 +156,10 @@
 						</label>
 						<div>
 							<input
-								bind:value={title}
-								id="title"
+								name="title"
 								type="text"
 								class="input h-fit w-full bg-base-300 p-2 leading-none"
+								on:input={handleInput}
 								required
 								{disabled}
 							/>
