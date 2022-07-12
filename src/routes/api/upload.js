@@ -3,28 +3,8 @@ import jwt from 'jsonwebtoken';
 import getFormBody from '$lib/server/get-form-body';
 import ClientError from '$lib/server/client-error';
 import errorHandler from '$lib/server/error-handler';
-import yup from 'yup';
+import { postSchema } from '$lib/schemas';
 import supabase from '$lib/supabase-server-client';
-
-//prettier-ignore
-const postSchema = yup.object({
-	title: yup.string().trim().max(30).required(),
-	sar: yup
-		.mixed()
-		.test(
-			'Is File{}', 
-			`"sar" is not a application/octect-stream`, 
-			value => value.type === 'application/octet-stream'),
-	thumbnail: yup
-		.mixed()
-		.test(
-			'Is File{}', 
-			`"thumbnail" is not a image/png`, 
-			value => value.type === 'image/png'),
-	ingame_name: yup.string(),
-	ingame_sound_id: yup.number(),
-	ingame_layer_count: yup.number()
-});
 
 /** @type {import('./__types/upload').RequestHandler} */
 export async function post({ request }) {
