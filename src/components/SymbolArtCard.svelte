@@ -6,6 +6,8 @@
 	import { playSound } from './AudioPlayer.svelte';
 	import { goto } from '$app/navigation';
 	import { toastPromise } from '$lib/toasts';
+	import { loadPosts } from '$stores/postView';
+	import { page } from '$app/stores';
 
 	let currentUser;
 	$: currentUser = $user ? $user.id : null;
@@ -41,7 +43,11 @@
 					.eq('id', post_id);
 				if (error) throw new Error(error.message);
 				if (!data[0]) throw new Error(`Couldn't find post with ID ${post_id}`);
-				goto('/');
+				if ($page.routeId === 'post/[id]') {
+					goto('/');
+				} else {
+					loadPosts();
+				}
 			},
 			{
 				loading: 'Deleting post...',

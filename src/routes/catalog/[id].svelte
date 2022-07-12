@@ -23,8 +23,6 @@
 
 	/** @type {import('$lib/types').Post[]} */
 	let posts = [];
-
-	$: console.log(posts);
 </script>
 
 <svelte:head>

@@ -15,6 +15,9 @@
 	onMount(() => {
 		$user = supabase.auth.user();
 	});
+
+	import { page } from '$app/stores';
+	$: console.log($page);
 </script>
 
 <svelte:head>
