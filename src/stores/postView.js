@@ -31,8 +31,8 @@ export async function loadPosts(config) {
 		return;
 	}
 
-	const { body, error } = await supabase.rpc('posts_meta', { page: 0 });
-	if (error) console.error(error);
+	const { body, error } = await supabase.rpc('posts_meta', { page: page - 1 });
+	if (error) throw new Error(error.message);
 	postView.set(body);
 	return;
 }
