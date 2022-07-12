@@ -5,7 +5,6 @@
 	import { dev } from '$app/env';
 
 	async function signInWithTwitter() {
-		console.log(dev);
 		const { user, session, error } = await supabase.auth.signIn(
 			{
 				provider: 'twitter'

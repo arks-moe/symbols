@@ -17,7 +17,6 @@
 	/** @type {import('$lib/types').Post[]} */
 	export let posts = [];
 	$postView = posts;
-	$: console.log($postView);
 </script>
 
 <svelte:head>

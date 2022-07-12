@@ -159,3 +159,25 @@ as $$
 
 $$;
 ```
+
+```postgresql
+  -- deletes from storage bucket
+create or replace function public.handle_deleted_post()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  delete
+  from storage.objects
+  where name = old.sar_filename or name = old.thumbnail_filename;
+  return new;
+end;
+$$;
+
+
+-- trigger the function every time a user is created
+create trigger on_post_deleted
+  after delete on public.posts
+  for each row execute procedure public.handle_deleted_post();
+```

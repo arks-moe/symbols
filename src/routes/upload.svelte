@@ -66,7 +66,6 @@
 	function handleInput(e) {
 		let { value, name } = e.target;
 		let isValid = reach(postSchema, name).isValidSync(value);
-		console.log(isValid);
 		if (!isValid && value.length !== 0) {
 			e.target.value = title;
 			return;

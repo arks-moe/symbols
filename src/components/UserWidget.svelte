@@ -6,9 +6,7 @@
 		const { user, session, error } = await supabase.auth.signIn({
 			provider: 'twitter'
 		});
-		if (user) console.log('user:', user);
-		if (session) console.log('session:', session);
-		if (error) console.log('error:', error);
+		if (error) console.error(error);
 	}
 
 	async function signout() {
