@@ -29,6 +29,7 @@
 	const thumbnail = supabase.storage.from('symbols').getPublicUrl(thumbnail_filename).publicURL;
 	const formattedDate = new Date(created_at).toLocaleDateString();
 	const postUrl = `/post/${post_id}`;
+	const userUrl = `/user/${user_id}/1`;
 
 	function download() {
 		bucketDownloadRename('symbols', sar_filename, `${title}.sar`);
@@ -63,9 +64,11 @@
 	</div>
 	<div class="flex-1">
 		<a href={postUrl}>
-			<h3 class="font-semibold text-lg link-hover">{title}</h3>
+			<h3 class="font-semibold text-lg link-hover overflow-x-clip">{title}</h3>
 		</a>
-		<h4 class="italic">@{username}</h4>
+		<a href={userUrl}>
+			<h4 class="italic link-hover">@{username}</h4>
+		</a>
 		<div class="flex gap-2 py-2">
 			{#if ingame_name}
 				<div class="badge badge-ghost badge-sm">

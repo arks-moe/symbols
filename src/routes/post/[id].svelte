@@ -38,6 +38,7 @@
 
 <svelte:head>
 	{#if post}
+		<title>{post.title}</title>
 		<meta property="og:title" content={post.title} />
 		<meta property="og:image" content={thumbnail} />
 		<meta property="og:description" content={`from @${post.username}`} />
