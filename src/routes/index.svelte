@@ -21,10 +21,13 @@
 
 <svelte:head>
 	<title>Home | Symbol Bucket</title>
-	<meta property="og:title" content="Home" />
+	<meta property="og:title" content="Symbol Bucket" />
 	<meta property="og:image" content="https://symbols.arks.moe/default-embed.png" />
 	<meta property="og:description" content="Upload and share your Symbol Arts!" />
 	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Symbol Bucket" />
+	<meta property="twitter:description" content="Upload and share your Symbol Arts!" />
+	<meta property="twitter:image" content="https://symbols.arks.moe/default-embed.png" />
 </svelte:head>
 
 <div class="max-w-5xl mx-auto p-2">
