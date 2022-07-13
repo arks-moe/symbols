@@ -13,6 +13,10 @@
 		const { error } = await supabase.auth.signOut();
 		if (error) console.error('error:', error);
 	}
+
+	let currentUser;
+	$: currentUser = $user ? $user.id : null;
+	let userUrl = $user ? `/user/${$user.id}/1` : null;
 </script>
 
 <div class="card card-compact bg-base-300 text-base-content w-fit">
@@ -30,7 +34,7 @@
 			{/if}
 			<h2>
 				{#if $user}
-					@{$user.user_metadata.preferred_username}
+					<a href={userUrl} class="link-hover">@{$user.user_metadata.preferred_username}</a>
 				{:else}
 					Not Logged In
 				{/if}

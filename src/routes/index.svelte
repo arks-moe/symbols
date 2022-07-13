@@ -37,7 +37,7 @@
 	{#if $postView.length <= 0}
 		<h3>Unable to find any posts</h3>
 	{/if}
-	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
+	<ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 justify-center">
 		{#each $postView as post (post.post_id)}
 			<SymbolArtCard {post} />
 		{/each}
