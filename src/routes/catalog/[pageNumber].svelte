@@ -8,6 +8,8 @@
 	$: pageNumber = $page.params.pageNumber;
 
 	onMount(async () => {
+		$postView = [];
+
 		loadPosts({ page: pageNumber, user: null });
 	});
 
@@ -48,7 +50,7 @@
 	{#if $postView.length <= 0}
 		<h3 class="text-center">Unable to find any posts</h3>
 	{/if}
-	<ul class="grid sm:grid-cols-2 gap-4 p-4 justify-center">
+	<ul class="grid sm:grid-cols-2 grid-cols-1 gap-4 p-4 justify-center">
 		{#each $postView as post (post.post_id)}
 			<SymbolArtCard {post} />
 		{/each}
