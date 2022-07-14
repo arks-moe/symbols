@@ -64,7 +64,9 @@
 	</div>
 	<div class="flex-1">
 		<a href={postUrl}>
-			<h3 class="font-semibold text-lg link-hover overflow-x-clip">{title}</h3>
+			<h3 class="font-semibold text-lg link-hover break-words">
+				{title}
+			</h3>
 		</a>
 		<a href={userUrl}>
 			<h4 class="italic link-hover">@{username}</h4>

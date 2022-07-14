@@ -15,10 +15,8 @@ let currentView = {
  * @param {String | null} config.user - UUID of user to fetch from, if null, fetch all
  */
 export async function loadPosts(config) {
-	let { page, user } = config ? config : {};
-	page ??= currentView.page;
-	user ??= currentView.user;
-
+	if (!config) config = currentView;
+	const { page, user } = config;
 	currentView = { page, user };
 
 	if (user) {
