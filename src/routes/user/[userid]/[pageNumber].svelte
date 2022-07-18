@@ -4,7 +4,6 @@
 	/** @type {import('./__types/[pageNumber]').Load} */
 	export async function load({ params }) {
 		const { userid } = params;
-		console.log(userid);
 		const {
 			data: [{ username }]
 		} = await supabase.rpc('users_meta').eq('user_id', userid);
@@ -28,6 +27,8 @@
 	$: pageNumber = $page.params.pageNumber;
 	$: userid = $page.params.userid;
 
+	const twitterUrl = `https://twitter.com/${username}`;
+
 	onMount(async () => {
 		$postView = [];
 		loadPosts({ page: pageNumber, user: userid });
@@ -44,7 +45,9 @@
 	<meta name="twitter:card" content="summary" />
 </svelte:head>
 
-<h2 class="text-4xl font-black text-center py-4">Posts from @{username}</h2>
+<h2 class="text-4xl font-black text-center py-4">
+	Posts from <a class="link" target="_blank" href={twitterUrl}>@{username}</a>
+</h2>
 
 <div class="grid grid-cols-3 justify-between gap-2 max-w-sm mx-auto py-2">
 	<div class="col-span-1">
