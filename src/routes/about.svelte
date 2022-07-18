@@ -2,6 +2,10 @@
 	export const prerender = true;
 </script>
 
+<svelte:head>
+	<title>About | Symbol Bucket</title>
+</svelte:head>
+
 <div class="p-8">
 	<div class="max-w-2xl mx-auto">
 		<h1 class="text-center font-black text-4xl py-8">About</h1>
