@@ -73,6 +73,25 @@
 				</p>
 			</li>
 		</ul>
+		<div class="divider" />
+		<h1 id="disclaimer" class="text-center font-black text-3xl py-8">Disclaimer</h1>
+		<p>
+			This site aims to provide a sharing platform for Symbol Arts (<code>.sar</code> files) from
+			the game
+			<a target="_blank" href="https://ngs.pso2.com/">Phantasy Star Online 2: New Genesis</a> by &copy;SEGA.
+			All posts can be made anyone with a Twitter account without any review prior to submission. I cannot
+			guarantee this site will be free from malicious posts. Please report any issues you have to me,
+			jojobii, through the contact methods above.
+		</p>
+		<h1 id="copyright" class="text-center font-black text-3xl py-8">Copyright</h1>
+		<p class="italic">
+			&copy;SEGA PHANTASY STAR ONLINE 2
+			<br />
+			All rights to the copyrighted works (images, data, audios, texts, etc.) used in PSO2 are owned
+			by SEGA Games Co. Ltd.
+			<br />
+			All other trademarks, logos and copyrights are property of their respective owners
+		</p>
 	</div>
 </div>
 
