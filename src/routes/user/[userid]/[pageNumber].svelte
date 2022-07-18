@@ -6,7 +6,7 @@
 		const { userid } = params;
 		const {
 			data: [{ username }]
-		} = await supabase.rpc('users_meta').eq('user_id', userid);
+		} = await supabase.rpc('users_meta').eq('username', userid);
 		return {
 			props: {
 				username: username ? username : null
@@ -23,18 +23,16 @@
 
 	export let username;
 	let pageNumber = $page.params.pageNumber;
-	let userid = $page.params.userid;
 	$: pageNumber = $page.params.pageNumber;
-	$: userid = $page.params.userid;
 
 	const twitterUrl = `https://twitter.com/${username}`;
 
 	onMount(async () => {
 		$postView = [];
-		loadPosts({ page: pageNumber, user: userid });
+		loadPosts({ page: pageNumber, user: username });
 	});
 
-	$: loadPosts({ page: pageNumber, user: userid });
+	$: loadPosts({ page: pageNumber, user: username });
 </script>
 
 <svelte:head>

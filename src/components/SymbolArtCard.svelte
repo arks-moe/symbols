@@ -29,7 +29,7 @@
 	const thumbnail = supabase.storage.from('symbols').getPublicUrl(thumbnail_filename).publicURL;
 	const formattedDate = new Date(created_at).toLocaleDateString();
 	const postUrl = `/post/${post_id}`;
-	const userUrl = `/user/${user_id}/1`;
+	const userUrl = `/user/${username}/1`;
 
 	function download() {
 		bucketDownloadRename('symbols', sar_filename, `${title}.sar`);
