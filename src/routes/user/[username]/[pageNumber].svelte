@@ -1,15 +1,15 @@
 <script context="module">
 	import supabase from '$lib/supabase-client';
 
-	/** @type {import('./__types/[pageNumber]').Load} */
+	/** @type {import('../../../../.svelte-kit/types/src/routes/user/[userid]/__types/[pageNumber]').Load} */
 	export async function load({ params }) {
-		const { userid } = params;
+		const { username } = params;
 		const {
-			data: [{ username }]
-		} = await supabase.rpc('users_meta').eq('username', userid);
+			data: [{ dbUsername }]
+		} = await supabase.rpc('users_meta').eq('username', username);
 		return {
 			props: {
-				username: username ? username : null
+				username: dbUsername ? dbUsername : null
 			}
 		};
 	}
