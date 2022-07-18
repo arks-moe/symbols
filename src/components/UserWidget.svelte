@@ -19,7 +19,7 @@
 	let userUrl = $user ? `/user/${$user.id}/1` : null;
 </script>
 
-<div class="card card-compact bg-base-300 text-base-content w-fit">
+<div class="card card-compact bg-base-100 text-base-content w-fit">
 	<div class="card-body items-center">
 		<div class="card-title justify-between gap-4 w-full">
 			{#if $user}
