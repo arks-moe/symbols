@@ -14,9 +14,7 @@
 		if (error) console.error('error:', error);
 	}
 
-	let currentUser;
-	$: currentUser = $user ? $user.id : null;
-	let userUrl = $user ? `/user/${$user.id}/1` : null;
+	let userUrl = $user ? `/user/${$user.user_metadata.preferred_username}/1` : null;
 </script>
 
 <div class="card card-compact bg-base-100 text-base-content w-full">

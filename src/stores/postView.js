@@ -20,9 +20,9 @@ export async function loadPosts(config) {
 	currentView = { page, user };
 
 	if (user) {
-		const { body, error } = await supabase.rpc('posts_meta_from_user', {
+		const { body, error } = await supabase.rpc('posts_meta_from_username', {
 			page: page - 1,
-			from_user_id: user
+			from_username: user
 		});
 		if (error) throw new Error(error.message);
 		postView.set(body);
