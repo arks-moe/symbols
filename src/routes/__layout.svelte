@@ -32,14 +32,25 @@
 	}}
 />
 
-<div class="bg-base-300 min-h-screen pb-16">
+<div class="bg-base-300 min-h-screen">
 	<Header />
 	<slot />
-	<div class="w-fit mx-auto pt-4">
-		<a href="https://github.com/arks-moe/symbol-bucket" class="btn btn-circle btn-ghost"
-			><i class="text-4xl fa-brands fa-github" /></a
-		>
-	</div>
+	<footer class="py-16">
+		<div class="divider w-96 mx-auto pb-8" />
+		<ul class="flex justify-center gap-8">
+			<li>
+				<a title="About Page" href="/about" class="btn btn-circle btn-ghost"
+					><i class="text-4xl fa-solid fa-circle-info" /></a
+				>
+				<a
+					title="GitHub Repository"
+					target="_blank"
+					href="https://github.com/arks-moe/symbol-bucket"
+					class="btn btn-circle btn-ghost"><i class="text-4xl fa-brands fa-github" /></a
+				>
+			</li>
+		</ul>
+	</footer>
 </div>
 
 <style>
