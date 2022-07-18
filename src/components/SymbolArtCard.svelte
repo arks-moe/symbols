@@ -64,7 +64,7 @@
 	</div>
 	<div class="flex-1">
 		<a href={postUrl}>
-			<h3 class="font-semibold text-lg link-hover break-words">
+			<h3 class="font-semibold text-lg link-hover break-words max-w-full">
 				{title}
 			</h3>
 		</a>

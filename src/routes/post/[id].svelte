@@ -47,7 +47,7 @@
 </svelte:head>
 
 {#if post}
-	<div class="max-w-xl mx-auto py-8">
+	<div class="max-w-xl mx-auto p-8">
 		<SymbolArtCard {post} />
 	</div>
 {:else}
