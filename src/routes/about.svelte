@@ -78,6 +78,12 @@
 			</li>
 		</ul>
 		<div class="divider" />
+		<h1 id="privacy" class="text-center font-black text-3xl py-8">Privacy Policy</h1>
+		<p>
+			TLDR; logging in via Twitter provides your email for the sole purpose of linking your account on here and
+			to Twitter via <a target="_blank" href="https://supabase.com/auth">Supabase Auth</a>. I don't disclose account
+			details to third parties.
+		</p>
 		<h1 id="disclaimer" class="text-center font-black text-3xl py-8">Disclaimer</h1>
 		<p>
 			This site aims to provide a sharing platform for Symbol Arts (<code>.sar</code> files) from
