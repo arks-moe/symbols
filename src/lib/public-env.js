@@ -1,5 +1,3 @@
-export default {
-	SUPABASE_URL: 'https://ukerwykabjfrwjecunfv.supabase.co',
-	SUPABASE_ANON_KEY:
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrZXJ3eWthYmpmcndqZWN1bmZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTYxMzg5NjMsImV4cCI6MTk3MTcxNDk2M30.wJISIhbLD9Qj8qvN6OrVlvNBTPUZwtuo12zt8VWkptk'
-};
+export const SUPABASE_URL = 'https://ukerwykabjfrwjecunfv.supabase.co';
+export const SUPABASE_ANON_KEY =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrZXJ3eWthYmpmcndqZWN1bmZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTYxMzg5NjMsImV4cCI6MTk3MTcxNDk2M30.wJISIhbLD9Qj8qvN6OrVlvNBTPUZwtuo12zt8VWkptk';
