@@ -1,5 +1,5 @@
 // @ts-nocheck
-import supabase from './supabase-client';
+import supabase from './supabase-public-client';
 
 export default function bucketDownloadRename(bucket, filename, newname) {
 	const { publicURL, error } = supabase.storage.from(bucket).getPublicUrl(filename);
