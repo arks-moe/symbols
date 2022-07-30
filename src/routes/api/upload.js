@@ -13,7 +13,7 @@ export async function post({ request }) {
 		if (!token) {
 			throw new ClientError(400, 'Authorization required');
 		}
-		const { sub: user_id } = jwt.verify(token, process.env.SECRET_KEY);
+		const { sub: user_id } = jwt.verify(token, process.env.SUPABASE_JWT_SECRET_KEY);
 		const formData = await request.formData();
 		const body = getFormBody(formData);
 		const { title, sar, thumbnail, ingame_name, ingame_sound_id, ingame_layer_count } = body;

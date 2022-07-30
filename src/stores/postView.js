@@ -1,4 +1,4 @@
-import supabase from '$lib/supabase-client';
+import supabase from '$lib/supabase-public-client';
 import { writable } from 'svelte/store';
 
 export const postView = writable([]);
