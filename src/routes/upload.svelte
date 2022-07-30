@@ -9,7 +9,7 @@
 
 	import processSarBuffer from '$lib/symbol/sar-parse';
 	import { toastError, toastPromise, toastSuccess } from '$lib/toasts';
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 	import { goto } from '$app/navigation';
 	import { postSchema } from '$lib/schemas';
 	import { reach } from 'yup';

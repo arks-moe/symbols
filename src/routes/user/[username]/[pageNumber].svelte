@@ -1,5 +1,5 @@
 <script context="module">
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 
 	/** @type {import('../../../../.svelte-kit/types/src/routes/user/[userid]/__types/[pageNumber]').Load} */
 	export async function load({ params }) {

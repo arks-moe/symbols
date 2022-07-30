@@ -1,6 +1,6 @@
 <script>
 	import bucketDownloadRename from '$lib/bucket-download-rename';
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 	import sounds from '$lib/symbol/sound-catalog';
 	import user from '$stores/userSession';
 	import { playSound } from './AudioPlayer.svelte';

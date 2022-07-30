@@ -1,5 +1,5 @@
 <script>
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 	import user from '$stores/userSession';
 	import AudioPlayer from '$components/AudioPlayer.svelte';
 

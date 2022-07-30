@@ -1,5 +1,5 @@
 <script context="module">
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 
 	/** @type {import('./__types/[id]').Load} */
 	export async function load({ params }) {

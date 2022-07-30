@@ -10,7 +10,7 @@
 </script>
 
 <script>
-	import supabase from '$lib/supabase-client';
+	import supabase from '$lib/supabase-public-client';
 	import SymbolArtCard from '$components/SymbolArtCard.svelte';
 	import { postView } from '$stores/postView';
 
