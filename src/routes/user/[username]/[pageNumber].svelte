@@ -1,10 +1,10 @@
 <script context="module">
-	import supabase from '$lib/supabase-public-client';
+	import { supabaseClient } from '$lib/db';
 
 	/** @type {import('../../../../.svelte-kit/types/src/routes/user/[userid]/__types/[pageNumber]').Load} */
 	export async function load({ params }) {
 		const { username } = params;
-		const { data, error } = await supabase.rpc('users_meta').eq('username', username);
+		const { data, error } = await supabaseClient.rpc('users_meta').eq('username', username);
 		if (error) console.error(error);
 		return {
 			props: {

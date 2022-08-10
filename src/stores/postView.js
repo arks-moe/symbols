@@ -1,4 +1,4 @@
-import supabase from '$lib/supabase-public-client';
+import { supabaseClient } from '$lib/db';
 import { writable } from 'svelte/store';
 
 export const postView = writable([]);
@@ -20,7 +20,7 @@ export async function loadPosts(config) {
 	currentView = { page, user };
 
 	if (user) {
-		const { body, error } = await supabase.rpc('posts_meta_from_username', {
+		const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
 			page: page - 1,
 			from_username: user
 		});
@@ -29,7 +29,7 @@ export async function loadPosts(config) {
 		return;
 	}
 
-	const { body, error } = await supabase.rpc('posts_meta', { page: page - 1 });
+	const { body, error } = await supabaseClient.rpc('posts_meta', { page: page - 1 });
 	if (error) throw new Error(error.message);
 	postView.set(body);
 	return;

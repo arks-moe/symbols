@@ -1,5 +1,5 @@
 <script context="module">
-	import supabase from '$lib/supabase-public-client';
+	import { supabaseClient } from '$lib/db';
 
 	/** @type {import('./__types/[id]').Load} */
 	export async function load({ params }) {
@@ -10,7 +10,7 @@
 		const {
 			data: [post],
 			error
-		} = await supabase.rpc('posts_meta_single', {
+		} = await supabaseClient.rpc('posts_meta_single', {
 			id_of_post
 		});
 
@@ -32,7 +32,7 @@
 	export let post;
 	export let id_of_post;
 	const thumbnail = post
-		? supabase.storage.from('symbols').getPublicUrl(post.thumbnail_filename).publicURL
+		? supabaseClient.storage.from('symbols').getPublicUrl(post.thumbnail_filename).publicURL
 		: null;
 </script>
 

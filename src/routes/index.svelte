@@ -1,7 +1,7 @@
 <script context="module">
 	/** @type import('./__types/index').Load */
 	export async function load() {
-		const { body: posts, error } = await supabase.rpc('posts_meta', { page: 0 });
+		const { body: posts, error } = await supabaseClient.rpc('posts_meta', { page: 0 });
 		if (error) console.error(error);
 		return {
 			props: { posts }
@@ -10,7 +10,7 @@
 </script>
 
 <script>
-	import supabase from '$lib/supabase-public-client';
+	import { supabaseClient } from '$lib/db';
 	import SymbolArtCard from '$components/SymbolArtCard.svelte';
 	import { postView } from '$stores/postView';
 

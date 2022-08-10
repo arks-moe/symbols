@@ -1,8 +1,8 @@
 // @ts-nocheck
-import supabase from './supabase-public-client';
+import { supabaseClient } from './db';
 
 export default function bucketDownloadRename(bucket, filename, newname) {
-	const { publicURL, error } = supabase.storage.from(bucket).getPublicUrl(filename);
+	const { publicURL, error } = supabaseClient.storage.from(bucket).getPublicUrl(filename);
 	if (error) console.error(error);
 	fetch(publicURL)
 		.then(res => res.blob())
