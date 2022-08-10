@@ -8,8 +8,8 @@
 	});
 
 	import processSarBuffer from '$lib/symbol/sar-parse';
-	import { toastError, toastPromise, toastSuccess } from '$lib/toasts';
-	import supabase from '$lib/supabase-public-client';
+	import { toastError, toastPromise } from '$lib/toasts';
+	import { session } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { postSchema } from '$lib/schemas';
 	import { reach } from 'yup';
@@ -81,7 +81,7 @@
 				fetch(renderedFile)
 					.then(res => res.blob())
 					.then(thumbnail => {
-						if (!supabase.auth.session()) throw new Error('Authentication required.');
+						if (!$session) throw new Error('Authentication required.');
 
 						const { name, layerCount, soundEffect } = parsedSar;
 						const formData = new FormData();
@@ -91,11 +91,11 @@
 						formData.append('ingame_name', name);
 						formData.append('ingame_layer_count', layerCount);
 						formData.append('ingame_sound_id', soundEffect);
+						console.log(formData);
 
 						return fetch('/api/upload', {
 							method: 'POST',
-							body: formData,
-							headers: { 'X-Access-Token': supabase.auth.session().access_token }
+							body: formData
 						});
 					})
 					.then(res => Promise.all([res.ok, res.json()]))

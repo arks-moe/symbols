@@ -1,8 +1,8 @@
 <script>
 	import bucketDownloadRename from '$lib/bucket-download-rename';
-	import supabase from '$lib/supabase-public-client';
+	import { supabaseClient } from '$lib/db';
 	import sounds from '$lib/symbol/sound-catalog';
-	import user from '$stores/userSession';
+	import { session } from '$app/stores';
 	import { playSound } from './AudioPlayer.svelte';
 	import { goto } from '$app/navigation';
 	import { toastPromise } from '$lib/toasts';
@@ -10,7 +10,7 @@
 	import { page } from '$app/stores';
 
 	let currentUser;
-	$: currentUser = $user ? $user.id : null;
+	$: currentUser = $session.user ? $session.user.id : null;
 
 	export let post;
 
@@ -26,7 +26,9 @@
 		ingame_sound_id
 	} = post;
 	const sound = sounds[ingame_sound_id];
-	const thumbnail = supabase.storage.from('symbols').getPublicUrl(thumbnail_filename).publicURL;
+	const thumbnail = supabaseClient.storage
+		.from('symbols')
+		.getPublicUrl(thumbnail_filename).publicURL;
 	const formattedDate = new Date(created_at).toLocaleDateString();
 	const postUrl = `/post/${post_id}`;
 	const userUrl = `/user/${username}/1`;
@@ -38,7 +40,7 @@
 	function deletePost() {
 		toastPromise(
 			async () => {
-				const { data, error } = await supabase
+				const { data, error } = await supabaseClient
 					.from('posts')
 					.delete({ returning: 'representation' })
 					.eq('id', post_id);

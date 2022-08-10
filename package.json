@@ -31,6 +31,8 @@
 		"typescript": "^4.7.4"
 	},
 	"dependencies": {
+		"@supabase/auth-helpers-svelte": "^0.4.5",
+		"@supabase/auth-helpers-sveltekit": "^0.6.8",
 		"@supabase/supabase-js": "^1.35.6",
 		"@zerodevx/svelte-toast": "^0.7.2",
 		"daisyui": "^2.22.0",

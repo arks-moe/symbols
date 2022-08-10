@@ -4,16 +4,15 @@ import getFormBody from '$lib/server/get-form-body';
 import ClientError from '$lib/server/client-error';
 import errorHandler from '$lib/server/error-handler';
 import { postSchema } from '$lib/schemas';
-import supabase from '$lib/supabase-server-client';
+import { supabaseServiceRoleClient } from '$lib/db-private';
 
 /** @type {import('./__types/upload').RequestHandler} */
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
 	try {
-		const token = request.headers.get('X-Access-Token');
-		if (!token) {
+		if (!locals.accessToken) {
 			throw new ClientError(400, 'Authorization required');
 		}
-		const { sub: user_id } = jwt.verify(token, SUPABASE_JWT_SECRET_KEY);
+		const { sub: user_id } = jwt.verify(locals.accessToken, SUPABASE_JWT_SECRET_KEY);
 		const formData = await request.formData();
 		const body = getFormBody(formData);
 		const { title, sar, thumbnail, ingame_name, ingame_sound_id, ingame_layer_count } = body;
@@ -31,10 +30,10 @@ export async function POST({ request }) {
 		const thumbnail_filename = `thumbnail-${filename}.png`;
 
 		const uploads = await Promise.all([
-			supabase.storage.from('symbols').upload(sar_filename, sar.stream(), {
+			supabaseServiceRoleClient.storage.from('symbols').upload(sar_filename, sar.stream(), {
 				contentType: 'application/octet-stream'
 			}),
-			supabase.storage
+			supabaseServiceRoleClient.storage
 				.from('symbols')
 				.upload(thumbnail_filename, thumbnail.stream(), { contentType: 'image/png' })
 		]);
@@ -46,7 +45,7 @@ export async function POST({ request }) {
 		const {
 			data: [newPost],
 			error
-		} = await supabase.from('posts').insert([
+		} = await supabaseServiceRoleClient.from('posts').insert([
 			{
 				user_id,
 				sar_filename,
