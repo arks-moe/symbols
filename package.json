@@ -34,7 +34,6 @@
 		"@supabase/supabase-js": "^1.35.6",
 		"@zerodevx/svelte-toast": "^0.7.2",
 		"daisyui": "^2.22.0",
-		"dotenv": "^16.0.1",
 		"jsonwebtoken": "^8.5.1",
 		"pixi-projection": "^0.4.4",
 		"pixi.js": "^6.4.2",

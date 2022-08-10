@@ -1,7 +1,7 @@
-import('dotenv/config');
-import { SUPABASE_URL } from './public-env';
+import { PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE);
+const supabase = createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 export default supabase;

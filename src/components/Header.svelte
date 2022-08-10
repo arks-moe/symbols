@@ -5,12 +5,12 @@
 	import { dev } from '$app/env';
 
 	async function signInWithTwitter() {
-		const { user, session, error } = await supabase.auth.signIn(
+		const { user, error } = await supabase.auth.signIn(
 			{
 				provider: 'twitter'
 			},
 			{
-				redirectTo: dev ? 'http://localhost:3000' : 'https://symbols.arks.moe'
+				redirectTo: dev ? 'http://localhost:5173' : 'https://symbols.arks.moe'
 			}
 		);
 		if (error) console.error('error:', error);
