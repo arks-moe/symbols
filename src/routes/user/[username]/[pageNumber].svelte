@@ -19,6 +19,8 @@
 	import { onMount } from 'svelte';
 	import SymbolArtCard from '$components/SymbolArtCard.svelte';
 	import { loadPosts, postView } from '$stores/postView';
+	import { goto } from '$app/navigation';
+	import { pageNumberSchema } from '$lib/schemas';
 
 	export let username = null;
 	let pageNumber = $page.params.pageNumber;
@@ -28,6 +30,8 @@
 
 	onMount(async () => {
 		$postView = [];
+		console.log(!pageNumberSchema.isValidSync(pageNumber));
+		if (!pageNumberSchema.isValidSync(pageNumber)) goto('/');
 		loadPosts({ page: pageNumber, user: username });
 	});
 

@@ -2,7 +2,12 @@
 	/** @type import('./__types/index').Load */
 	export async function load() {
 		const { body: posts, error } = await supabaseClient.rpc('posts_meta', { page: 0 });
-		if (error) console.error(error);
+		if (error) {
+			return {
+				status: 400,
+				props: { message: error }
+			};
+		}
 		return {
 			props: { posts }
 		};

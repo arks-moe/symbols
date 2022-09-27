@@ -16,3 +16,5 @@ export const postSchema = yup.object({
 	ingame_sound_id: yup.number(),
 	ingame_layer_count: yup.number()
 });
+
+export const pageNumberSchema = yup.number().integer().positive().min(1);
