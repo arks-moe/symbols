@@ -9,7 +9,6 @@
 
 	onMount(async () => {
 		$postView = [];
-
 		loadPosts({ page: pageNumber, user: null });
 	});
 

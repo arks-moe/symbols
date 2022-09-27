@@ -19,18 +19,25 @@ export async function loadPosts(config) {
 	const { page, user } = config;
 	currentView = { page, user };
 
-	if (user) {
-		const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
-			page: page - 1,
-			from_username: user
-		});
+	try {
+		if (!Number.isInteger(Number(page))) throw new Error('Incorrect catalog page.');
+
+		if (user) {
+			const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
+				page: page - 1,
+				from_username: user
+			});
+			if (error) throw new Error(error.message);
+			postView.set(body);
+			return;
+		}
+
+		const { body, error } = await supabaseClient.rpc('posts_meta', { page: page - 1 });
 		if (error) throw new Error(error.message);
 		postView.set(body);
 		return;
+	} catch (error) {
+		postView.set([]);
+		console.error(error);
 	}
-
-	const { body, error } = await supabaseClient.rpc('posts_meta', { page: page - 1 });
-	if (error) throw new Error(error.message);
-	postView.set(body);
-	return;
 }
