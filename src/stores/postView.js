@@ -20,7 +20,7 @@ export async function loadPosts(config) {
 	currentView = { page, user };
 
 	try {
-		if (!Number.isInteger(Number(page))) throw new Error('Incorrect catalog page.');
+		if (!Number.isInteger(Number(currentView.page))) throw new Error('Incorrect catalog page.');
 
 		if (user) {
 			const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
