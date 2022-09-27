@@ -20,10 +20,11 @@ export async function loadPosts(config) {
 	const { page, user } = config;
 	currentView = { page, user };
 
+	console.log(currentView.page);
+
 	try {
-		if (pageNumberSchema.isValidSync(Number(currentView.page)))
+		if (!pageNumberSchema.isValidSync(Number(currentView.page)))
 			throw new Error('Incorrect catalog page.');
-		ß;
 		if (user) {
 			const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
 				page: page - 1,
