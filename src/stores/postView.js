@@ -1,4 +1,5 @@
 import { supabaseClient } from '$lib/db';
+import { pageNumberSchema } from '$lib/schemas';
 import { writable } from 'svelte/store';
 
 export const postView = writable([]);
@@ -20,8 +21,9 @@ export async function loadPosts(config) {
 	currentView = { page, user };
 
 	try {
-		if (!Number.isInteger(Number(currentView.page))) throw new Error('Incorrect catalog page.');
-
+		if (pageNumberSchema.isValidSync(Number(currentView.page)))
+			throw new Error('Incorrect catalog page.');
+		ß;
 		if (user) {
 			const { body, error } = await supabaseClient.rpc('posts_meta_from_username', {
 				page: page - 1,
