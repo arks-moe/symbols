@@ -21,7 +21,7 @@ export default function processSarBuffer(buffer) {
 		context.decrypt(u8view.buffer);
 		let resultBuffer = u8view.buffer;
 		if (flag === 0x84) {
-			u8view = u8view.map(v => v ^ 0x95);
+			u8view = u8view.map((v) => v ^ 0x95);
 			resultBuffer = prs.decompress(u8view.buffer);
 		}
 		const parsed = struct.parse(resultBuffer, sarSchema);

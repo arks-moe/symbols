@@ -3,20 +3,20 @@
 import { Cursor } from '../cursor';
 
 const baseRegistry = {
-	u8: cursor => cursor.readUint8(),
-	u16: cursor => cursor.readUint16(false),
-	u32: cursor => cursor.readUint32(false),
-	u16le: cursor => cursor.readUint16(true),
-	u32le: cursor => cursor.readUint32(true),
-	i8: cursor => cursor.readInt8(),
-	i16: cursor => cursor.readInt16(false),
-	i32: cursor => cursor.readInt32(false),
-	i16le: cursor => cursor.readInt16(true),
-	i32le: cursor => cursor.readInt32(true),
-	f32: cursor => cursor.readFloat32(false),
-	f64: cursor => cursor.readFloat64(false),
-	f32le: cursor => cursor.readFloat32(true),
-	f64le: cursor => cursor.readFloat64(true)
+	u8: (cursor) => cursor.readUint8(),
+	u16: (cursor) => cursor.readUint16(false),
+	u32: (cursor) => cursor.readUint32(false),
+	u16le: (cursor) => cursor.readUint16(true),
+	u32le: (cursor) => cursor.readUint32(true),
+	i8: (cursor) => cursor.readInt8(),
+	i16: (cursor) => cursor.readInt16(false),
+	i32: (cursor) => cursor.readInt32(false),
+	i16le: (cursor) => cursor.readInt16(true),
+	i32le: (cursor) => cursor.readInt32(true),
+	f32: (cursor) => cursor.readFloat32(false),
+	f64: (cursor) => cursor.readFloat64(false),
+	f32le: (cursor) => cursor.readFloat32(true),
+	f64le: (cursor) => cursor.readFloat64(true)
 };
 
 /**

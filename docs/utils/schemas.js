@@ -7,11 +7,11 @@ export const postSchema = yup.object({
 		.test(
 			'Is File{}',
 			`"sar" is not a application/octect-stream`,
-			value => value.type === 'application/octet-stream'
+			(value) => value.type === 'application/octet-stream'
 		),
 	thumbnail: yup
 		.mixed()
-		.test('Is File{}', `"thumbnail" is not a image/png`, value => value.type === 'image/png'),
+		.test('Is File{}', `"thumbnail" is not a image/png`, (value) => value.type === 'image/png'),
 	ingame_name: yup.string(),
 	ingame_sound_id: yup.number(),
 	ingame_layer_count: yup.number()
