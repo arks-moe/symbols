@@ -1,4 +1,4 @@
-import pageOffset from './page-number';
+import pageOffset from './page-offset';
 
 const schemas = {
 	pageOffset
