@@ -1,7 +1,7 @@
-import pageNumber from './page-number';
+import pageOffset from './page-number';
 
 const schemas = {
-	pageNumber
+	pageOffset
 };
 
 export default schemas;
