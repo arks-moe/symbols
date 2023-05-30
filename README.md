@@ -1,3 +1,9 @@
+# A new version of this project is being developed at [arks-cafe/symbols](https://github.com/arks-cafe/symbols)
+
+## This repository is outdated and is not fully functional in its current state; will soon be fully archived.
+
+---
+
 # symbol-bucket
 
 ## A web application for [_Phantasy Star Online 2_](https://ngs.pso2.com) players who want to share their _Symbol Arts_ online. ✨
